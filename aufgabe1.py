@@ -40,6 +40,18 @@ def K_sin(t,s): #Kernel von Problem 2
                 k_out[x,y] = dt*np.sin(np.pi*(S[x,y]-T[x,y]))
     return  k_out 
 
+
+#Problem 2 d)
+def K_sin2(t,s): #Kernel von Problem 2 d)
+    dt = t[2] - t[1]       
+    k_out = np.zeros(shape = (t.shape[0], t.shape[0]))        
+    T, S = np.meshgrid(t,s)                                   
+    for x in range(T.shape[0]):                               
+        for y in range(S.shape[0]):                                
+            k_out[x,y] = dt*np.sin(np.pi*(S[x,y]-T[x,y]))
+    return  k_out 
+
+
 def Problem_one(N):
     tau = 1
 
@@ -123,6 +135,14 @@ def Problem_two(N):
     y2_shifted = np.matmul(K_sin(t2, s2), X(t2-tau))
     y2_sin_shifted = np.matmul(K_sin(t2, s2), X_sin(t2-tau))
 
+    # d) kein plan ob das sinnvoll ist
+    y2d_jump = np.matmul(K_sin2(t2, s2), X(t2))
+    y2d_jump_shifted = np.matmul(K_sin2(t2, s2), X(t2-tau))
+    y2d_sin = np.matmul(K_sin2(t2, s2), X_sin(t2))
+    y2d_sin_shifted = np.matmul(K_sin2(t2, s2), X_sin(t2-tau))
+
+
+
     #manual computation
     s = symbols('s')
     y2_m= 1/pi*(1-cos(pi*s))
@@ -169,8 +189,14 @@ def Problem_two(N):
     plt.ylabel('y(s)')
     plt.xlabel('s')
     plt.title('Problem 2: oscillatory shifted')
+
+    figNr = int(str(3)+str(N))
+    plot2 = plt.figure(figNr)
+    plt.plot(t2,y2d_jump,'r')
+    plt.plot(t2,y2d_jump_shifted,'g')
+
     #plt.show
-    return plot
+    return plot, plot2
 
 #Problem Sheet 1
 plot1_40 = Problem_one(N=40)
@@ -182,10 +208,12 @@ print()
 
 
 #Problem 2
-plot2_40 = Problem_two(N=40)
+plot2_40, plot2d40 = Problem_two(N=40)
 plot2_40.show()
-plt2_400 = Problem_two(N=400)
+plot2d40.show()
+plt2_400, plot2d400 = Problem_two(N=400)
 plt2_400.show()
+plot2d400.show()
 print()
 
 
