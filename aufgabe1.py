@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sympy import *
+from torch import heaviside
 
 
 #Functions
@@ -40,6 +41,13 @@ def K_sin(t,s): #Kernel von Problem 2
                 k_out[x,y] = dt*np.sin(np.pi*(S[x,y]-T[x,y]))
     return  k_out 
 
+#Problem 2 c)
+def H(t):
+    return np.heaviside(t, 1)
+
+
+def H2(t):
+    return np.heaviside(t-2, 1)
 
 #Problem 2 d)
 def K_sin2(t,s): #Kernel von Problem 2 d)
@@ -135,6 +143,11 @@ def Problem_two(N):
     y2_shifted = np.matmul(K_sin(t2, s2), X(t2-tau))
     y2_sin_shifted = np.matmul(K_sin(t2, s2), X_sin(t2-tau))
 
+
+    # c) mich verwirrt schon die aufgabenstellung. die jumpfunktion die bei 0 auf 1 springt ist irgendwie witzlos wenn die werte eh nur <=0 sind
+    #y2c_sin = np.matmul(H(t2), np.transpose(X_sin(t2)))
+    #y2c_sin_shifted = np.matmul(H2(t2), np.transpose(X_sin(t2)))
+
     # d) kein plan ob das sinnvoll ist
     y2d_jump = np.matmul(K_sin2(t2, s2), X(t2))
     y2d_jump_shifted = np.matmul(K_sin2(t2, s2), X(t2-tau))
@@ -155,7 +168,7 @@ def Problem_two(N):
         y2_mv_sin.append(y2_m_sin.evalf(subs={s:ss}))
 
     figNr = int(str(2)+str(N))
-    plot = plt.figure(figNr)
+    plotb = plt.figure(figNr)
     plt.subplot(511)
     plt.plot(s2,y2,'r')
     plt.plot(s2,X(t2),'g')
@@ -191,12 +204,18 @@ def Problem_two(N):
     plt.title('Problem 2: oscillatory shifted')
 
     figNr = int(str(3)+str(N))
-    plot2 = plt.figure(figNr)
+    plotd = plt.figure(figNr)
     plt.plot(t2,y2d_jump,'r')
     plt.plot(t2,y2d_jump_shifted,'g')
 
+    figNr = int(str(4)+str(N))
+    plotc = plt.figure(figNr)
+    plt.plot(t2, H(t2))
+    #plt.plot(t2,y2c_sin,'r')
+    plt.plot(t2,H2(t2),'g-')
+
     #plt.show
-    return plot, plot2
+    return plotb, plotd, plotc
 
 #Problem Sheet 1
 plot1_40 = Problem_one(N=40)
@@ -208,12 +227,14 @@ print()
 
 
 #Problem 2
-plot2_40, plot2d40 = Problem_two(N=40)
+plot2_40, plot2d40, plot2c40 = Problem_two(N=40)
 plot2_40.show()
 plot2d40.show()
-plt2_400, plot2d400 = Problem_two(N=400)
+plot2c40.show()
+plt2_400, plot2d400, plot2c400 = Problem_two(N=400)
 plt2_400.show()
 plot2d400.show()
+plot2c400.show()
 print()
 
 
