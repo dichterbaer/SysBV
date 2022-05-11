@@ -65,6 +65,10 @@ def Problem_one(N):
     s = symbols('s')
     y1_m_sin=1/(s+1/s)*(sin(s)-cos(s)/s-exp(-s**2)); #händisch bestimmtes Integral vom Kernel mit Sinus Funktion als Input
     #y1_m_sin=y1_m_sin.subs(s, s1)
+    y1_mv_sin = []
+    for ss in s1:
+        y_temp = y1_m_sin.evalf(subs={s:ss})
+        y1_mv_sin.append(y_temp)
     y1_mv_sin=y1_m_sin.evalf(subs={s: s1})
     #y1_mv_sin=N(y1_m_sin.subs(s, s1)); #Bestimme Funktionswerte im Intervall s1
     figNr = int(str(1)+str(N))
