@@ -61,22 +61,22 @@ def Problem_one(N):
     y1_sin_shifted=np.matmul(K_exp(t1,s1), X_sin(t1-tau)) #Funktion mit shift mit Sinus-Input
 
     #manual computation 
-    # kp wie man das syms s aus matlab umsetzt
     s = symbols('s')
+    y1_m= (1-exp(-s**2))/s
     y1_m_sin=1/(s+1/s)*(sin(s)-cos(s)/s-exp(-s**2)); #händisch bestimmtes Integral vom Kernel mit Sinus Funktion als Input
-    #y1_m_sin=y1_m_sin.subs(s, s1)
+    
+    y1_mv = []
     y1_mv_sin = []
     for ss in s1:
-        y_temp = y1_m_sin.evalf(subs={s:ss})
-        y1_mv_sin.append(y_temp)
-    y1_mv_sin=y1_m_sin.evalf(subs={s: s1})
-    #y1_mv_sin=N(y1_m_sin.subs(s, s1)); #Bestimme Funktionswerte im Intervall s1
+        y1_mv.append(y1_m.evalf(subs={s:ss}))
+        y1_mv_sin.append(y1_m_sin.evalf(subs={s:ss}))
+
     figNr = int(str(1)+str(N))
     plot = plt.figure(figNr)
     plt.subplot(411)
     plt.plot(s1,y1,'r')
     plt.plot(s1,X(t1),'g')
-    #plt.plot(s1, y1_mv,'b')
+    plt.plot(s1, y1_mv,'b')
     #plt.legend('Output Numerical','Input')
     #plt.legend('Output Numerical','Input','Output Analytical')
     plt.ylabel('y(s)')
@@ -93,8 +93,8 @@ def Problem_one(N):
     plt.subplot(413)
     plt.plot(s1,y1_sin,'r')
     plt.plot(s1,X_sin(t1),'g')
-    # plt.plot(s1, y1_mv_sin,'b')
-    # plt.legend('Output Numerical','Input','Output Analytical')
+    plt.plot(s1, y1_mv_sin,'b')
+    #plt.legend('Output Numerical','Input','Output Analytical')
     plt.ylabel('y(s)')
     plt.xlabel('s')
     plt.title('Problem 1: oscillatory')
@@ -124,18 +124,27 @@ def Problem_two(N):
     y2_sin_shifted = np.matmul(K_sin(t2, s2), X_sin(t2-tau))
 
     #manual computation
+    s = symbols('s')
+    y2_m= 1/pi*(1-cos(pi*s))
+    y2_m_sin=1/(pi**2-1)*(pi*sin(s)-sin(pi*s)) #händisch bestimmtes Integral vom Kernel mit Sinus Funktion als Input
+    
+    y2_mv = []
+    y2_mv_sin = []
+    for ss in s2:
+        y2_mv.append(y2_m.evalf(subs={s:ss}))
+        y2_mv_sin.append(y2_m_sin.evalf(subs={s:ss}))
 
     figNr = int(str(2)+str(N))
     plot = plt.figure(figNr)
     plt.subplot(511)
     plt.plot(s2,y2,'r')
     plt.plot(s2,X(t2),'g')
-    #plt.plot(s1, y1_mv,'b')
+    plt.plot(s2, y2_mv,'b')
     #plt.legend('Output Numerical','Input')
     #plt.legend('Output Numerical','Input','Output Analytical')
     plt.ylabel('y(s)')
     plt.xlabel('s')
-    plt.title('Problem 1: jump')
+    plt.title('Problem 2: jump')
 
 
     plt.subplot(512)
@@ -143,15 +152,15 @@ def Problem_two(N):
     plt.plot(s2,X(t2-tau),'g')
     plt.ylabel('y(s)')
     plt.xlabel('s')
-    plt.title('Problem 1: jump verschoben')
+    plt.title('Problem 2: jump verschoben')
     plt.subplot(513)
     plt.plot(s2,y2_sin,'r')
     plt.plot(s2,X_sin(t2),'g')
-    # plt.plot(s1, y1_mv_sin,'b')
+    plt.plot(s2, y2_mv_sin,'b')
     # plt.legend('Output Numerical','Input','Output Analytical')
     plt.ylabel('y(s)')
     plt.xlabel('s')
-    plt.title('Problem 1: oscillatory')
+    plt.title('Problem 2: oscillatory')
 
 
     plt.subplot(514)
@@ -159,7 +168,7 @@ def Problem_two(N):
     plt.plot(s2,X_sin(t2-tau),'g')
     plt.ylabel('y(s)')
     plt.xlabel('s')
-    plt.title('Problem 1: oscillatory shifted')
+    plt.title('Problem 2: oscillatory shifted')
     #plt.show
     return plot
 
