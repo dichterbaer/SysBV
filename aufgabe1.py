@@ -1,7 +1,7 @@
-
-from cmath import tau
 import numpy as np
 import matplotlib.pyplot as plt
+from sympy import *
+
 
 #Functions
 
@@ -62,8 +62,11 @@ def Problem_one(N):
 
     #manual computation 
     # kp wie man das syms s aus matlab umsetzt
-    #y1_m_sin=1/(s+1/s)*(sin(s)-cos(s)/s-exp(-s^2)); #händisch bestimmtes Integral vom Kernel mit Sinus Funktion als Input
-    #y1_mv_sin=eval(subs(y1_m_sin, s, s1)); #Bestimme Funktionswerte im Intervall s1
+    s = symbols('s')
+    y1_m_sin=1/(s+1/s)*(sin(s)-cos(s)/s-exp(-s**2)); #händisch bestimmtes Integral vom Kernel mit Sinus Funktion als Input
+    #y1_m_sin=y1_m_sin.subs(s, s1)
+    y1_mv_sin=y1_m_sin.evalf(subs={s: s1})
+    #y1_mv_sin=N(y1_m_sin.subs(s, s1)); #Bestimme Funktionswerte im Intervall s1
     figNr = int(str(1)+str(N))
     plot = plt.figure(figNr)
     plt.subplot(411)
