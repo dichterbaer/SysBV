@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sympy import *
-from torch import heaviside
 
 
 #Functions
@@ -147,6 +146,13 @@ def Problem_two(N):
     # c) mich verwirrt schon die aufgabenstellung. die jumpfunktion die bei 0 auf 1 springt ist irgendwie witzlos wenn die werte eh nur <=0 sind
     #y2c_sin = np.matmul(H(t2), np.transpose(X_sin(t2)))
     #y2c_sin_shifted = np.matmul(H2(t2), np.transpose(X_sin(t2)))
+    y2c_sin = []
+    y2c_sin_shifted = []
+    for t in range(t2.shape[0]):
+        y_temp = H(t)*X_sin(t)
+        y_temp2 = H2(t)*X_sin(t)
+        y2c_sin.append(y_temp)
+        y2c_sin_shifted.append(y_temp2)
 
     # d) kein plan ob das sinnvoll ist
     y2d_jump = np.matmul(K_sin2(t2, s2), X(t2))
@@ -169,7 +175,7 @@ def Problem_two(N):
 
     figNr = int(str(2)+str(N))
     plotb = plt.figure(figNr)
-    plt.subplot(511)
+    plt.subplot(411)
     plt.plot(s2,y2,'r')
     plt.plot(s2,X(t2),'g')
     plt.plot(s2, y2_mv,'b')
@@ -180,13 +186,13 @@ def Problem_two(N):
     plt.title('Problem 2: jump')
 
 
-    plt.subplot(512)
+    plt.subplot(412)
     plt.plot(s2,y2_shifted,'r')
     plt.plot(s2,X(t2-tau),'g')
     plt.ylabel('y(s)')
     plt.xlabel('s')
     plt.title('Problem 2: jump verschoben')
-    plt.subplot(513)
+    plt.subplot(413)
     plt.plot(s2,y2_sin,'r')
     plt.plot(s2,X_sin(t2),'g')
     plt.plot(s2, y2_mv_sin,'b')
@@ -196,7 +202,7 @@ def Problem_two(N):
     plt.title('Problem 2: oscillatory')
 
 
-    plt.subplot(514)
+    plt.subplot(414)
     plt.plot(s2,y2_sin_shifted,'r')
     plt.plot(s2,X_sin(t2-tau),'g')
     plt.ylabel('y(s)')
@@ -209,10 +215,13 @@ def Problem_two(N):
     plt.plot(t2,y2d_jump_shifted,'g')
 
     figNr = int(str(4)+str(N))
+    plt.subplot(211)
     plotc = plt.figure(figNr)
     plt.plot(t2, H(t2))
-    #plt.plot(t2,y2c_sin,'r')
-    plt.plot(t2,H2(t2),'g-')
+    plt.plot(t2,y2c_sin,'r')
+    plt.subplot(212)
+    plt.plot(t2, H2(t2))
+    plt.plot(t2,y2c_sin_shifted,'r')
 
     #plt.show
     return plotb, plotd, plotc
