@@ -10,11 +10,13 @@ def K_exp(t,s): #Kernel Problem 1
     mask = np.zeros(shape = (t.shape[0], t.shape[0]))           # das
     k_out = np.zeros(shape = (t.shape[0], t.shape[0]))          # geht
     T, S = np.meshgrid(t,s)                                     # bestimmt
-    for x in range(T.shape[0]):                                 # auch
-        for y in range(S.shape[0]):                             # in
-            if T[x,y]>0 and T[x,y]<S[x,y]:                      # zwei
-                mask[x,y] = 1                                   # Zeilen
-                k_out[x,y] = dt*np.exp(S[x,y]*(T[x,y]-S[x,y]))  # wenn man am ende merkt, dass man mask gar nicht benutzt aber es trotzdem funktioniert(┛ಠ_ಠ)┛彡┻━┻
+    mask = (T>0) & (T<S)
+    k_out = dt * mask * np.exp(S*(T-S))
+    # for x in range(T.shape[0]):                                 # auch
+    #     for y in range(S.shape[0]):                             # in
+    #         if T[x,y]>0 and T[x,y]<S[x,y]:                      # zwei
+    #             mask[x,y] = 1                                   # Zeilen
+    #             k_out[x,y] = dt*np.exp(S[x,y]*(T[x,y]-S[x,y]))  # wenn man am ende merkt, dass man mask gar nicht benutzt aber es trotzdem funktioniert(┛ಠ_ಠ)┛彡┻━┻
     return  k_out
 
 
@@ -33,10 +35,8 @@ def K_sin(t,s): #Kernel von Problem 2
     dt = t[2] - t[1]
     k_out = np.zeros(shape = (t.shape[0], t.shape[0]))
     T, S = np.meshgrid(t,s)
-    for x in range(T.shape[0]):
-        for y in range(S.shape[0]):
-            if T[x,y]>0 and T[x,y]<S[x,y]:
-                k_out[x,y] = dt*np.sin(np.pi*(S[x,y]-T[x,y]))
+    mask = (T>0) & (T<S)
+    k_out = dt*mask*np.sin(np.pi*(S-T))
     return  k_out
 
 #Problem 2 c)
@@ -52,9 +52,7 @@ def K_sin2(t,s): #Kernel von Problem 2 d)
     dt = t[2] - t[1]
     k_out = np.zeros(shape = (t.shape[0], t.shape[0]))
     T, S = np.meshgrid(t,s)
-    for x in range(T.shape[0]):
-        for y in range(S.shape[0]):
-            k_out[x,y] = dt*np.sin(np.pi*(S[x,y]-T[x,y]))
+    k_out = dt*np.sin(np.pi*(S-T))
     return  k_out
 
 
