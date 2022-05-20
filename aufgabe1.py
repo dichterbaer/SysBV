@@ -48,9 +48,7 @@ def K_sin2(t,s): #Kernel von Problem 2 d)
     dt = t[2] - t[1]
     k_out = np.zeros(shape = (t.shape[0], t.shape[0]))
     T, S = np.meshgrid(t,s)
-    for x in range(T.shape[0]):
-        for y in range(S.shape[0]):
-            k_out[x,y] = dt*np.sin(np.pi*(S[x,y]-T[x,y]))
+    k_out = dt*np.sin(np.pi*(S-T))
     return  k_out
 
 
