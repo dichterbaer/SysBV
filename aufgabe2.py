@@ -11,10 +11,10 @@ def X_cos(t): #Cosinuswerte im Intervall
     return  Xout
 
 
-def K_fft(signal):
-    w = np.arange(0,signal.shape[0],1)
+def K_fft(x):
+    w = np.arange(0,x.shape[0],1)
     T, S = np.meshgrid(w, w)    
-    M = signal.shape[0]   
+    M = x.shape[0]   
     k_out = np.exp(-2*np.pi*1j*S*T/M) 
     return  k_out
 #
@@ -45,7 +45,7 @@ for i in range(0, x.size-1):
     yk[i] = np.sum(np.dot(x[0:5], k)) 
     x = np.roll(x, -1)
 
-lena = cv2.imread('data/lena.png', 0)
+lena = cv2.imread('C:/Users/MStempel/Documents/HDA/SysBV/SysBV/data/lena.png', 0)
 cv2.imshow('Original', lena)
 
 lena_glatt = cv2.filter2D(lena, -1, k)
@@ -56,9 +56,9 @@ cv2.imshow('Gefiltert OpenCV', lena_glatt_cv)
 cv2.imshow('Differenz Händisch vs OpenCV', diff)
 cv2.waitKey(0)
 
-#Aufgabe 2a) animiert (ist noch nicht richtig. sollte keine matrixmultiplikation sein sondern ein diskretisierter kernel)
+#Aufgabe 2a) animiert 
 
-fig, (ax1, ax2, ax3) = plt.subplots(3,1)
+fig, (ax1, ax2, ax3, ax4) = plt.subplots(4,1)
 fig.set_size_inches(6, 10)
 ax1.set_xlim([0,200*np.pi+1])
 ax1.set_ylim([-1.5 ,1.5])
@@ -69,9 +69,13 @@ ax2.title.set_text('Fourier händisch')
 ax3.set_xlim([0,200*np.pi+1])
 ax3.set_ylim([-10 ,10])
 ax3.title.set_text('Fourier mit np.fft')
+ax4.set_xlim([0,200*np.pi+1])
+ax4.set_ylim([-10 ,10])
+ax3.title.set_text('Differenz Fourier Händisch vs np.fft')
 line1, = ax1.plot([], [], lw=2)
 line2, = ax2.plot([], [], lw=2)
 line3, = ax3.plot([], [], lw=2)
+line4, = ax4.plot([], [], lw=2)
 title = ax1.text(0.5,0.85, "", bbox={'facecolor':'w', 'alpha':0.5, 'pad':5},
                 transform=ax1.transAxes, ha="center")
 
@@ -79,24 +83,26 @@ def init():
     line1.set_data([], [])
     line2.set_data([], [])
     line3.set_data([], [])
-    return line1, line2, line3
+    line4.set_data([], [])
+    return line1, line2, line3, line4
 
 
 def animate(i):
-    n = 10**i
     n = i
     x = np.linspace(0, 200*np.pi, n)
     cos = X_cos(x)  
     f_h = np.matmul(K_fft(x), X_cos(x))
     f_fft = np.fft.fft(cos) 
+    f_diff = f_h - f_fft
     line1.set_data(x, cos)
     line2.set_data(x, f_h)
     line3.set_data(x, f_fft)
-    title.set_text("n = " + str(n))
-    return line1, line2, line3, title,
+    line4.set_data(x, f_diff)
+    title.set_text("Abtastpunkte: " + str(n))
+    return line1, line2, line3, line4, title,
 
 inputs = np.arange(10, 500, 5) #Abtastpunkte (10-500 in 10er Schritten)
-interval = 100 #pause zwischen frames in ms
+interval = 500 #pause zwischen frames in ms
 
 anim = FuncAnimation(fig, animate, init_func=init, frames=inputs, interval=interval, blit=True)
 plt.show()
