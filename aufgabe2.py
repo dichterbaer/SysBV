@@ -64,6 +64,7 @@ cv2.imshow('Gefiltert Händisch', lena_glatt)
 cv2.imshow('Gefiltert OpenCV', lena_glatt_cv)
 cv2.imshow('Differenz Händisch vs OpenCV', diff)
 cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 #Aufgabe 2a) animiert 
 
@@ -80,7 +81,7 @@ ax3.set_ylim([-10 ,10])
 ax3.title.set_text('Fourier mit np.fft')
 ax4.set_xlim([0,200*np.pi+1])
 ax4.set_ylim([-10 ,10])
-ax3.title.set_text('Differenz Fourier Händisch - np.fft')
+ax4.title.set_text('Differenz Fourier Händisch - np.fft')
 line1, = ax1.plot([], [], lw=2)
 line2, = ax2.plot([], [], lw=2)
 line3, = ax3.plot([], [], lw=2)
