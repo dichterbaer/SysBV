@@ -35,8 +35,8 @@ for i in range(0, x.size-1): #create K with shifted k
 #apply K to x
 yK = np.dot(K, np.transpose(x))
 
-#vergleich np implementierung mit händisch (passt aber nicht)
-yk_np = np.convolve(x, k)
+#vergleich np implementierung mit händisch (randbehandlung)
+yk_np = np.convolve(x, k, mode='same')
 
 yk = np.zeros(x.size)
 # letzter wert passt noch nicht ganz
@@ -45,7 +45,16 @@ for i in range(0, x.size-1):
     yk[i] = np.sum(np.dot(x[0:5], k)) 
     x = np.roll(x, -1)
 
-lena = cv2.imread('C:/Users/MStempel/Documents/HDA/SysBV/SysBV/data/lena.png', 0)
+
+print("Aufgabe 1b)")
+print("yK: " + str(yK)) 
+print("yk: " + str(yk)) 
+print("yk_np: " + str(yk_np)) 
+
+
+# Aufgabe 1c)
+
+lena = cv2.imread('data/lena.png', 0)
 cv2.imshow('Original', lena)
 
 lena_glatt = cv2.filter2D(lena, -1, k)
@@ -62,7 +71,7 @@ fig, (ax1, ax2, ax3, ax4) = plt.subplots(4,1)
 fig.set_size_inches(6, 10)
 ax1.set_xlim([0,200*np.pi+1])
 ax1.set_ylim([-1.5 ,1.5])
-ax1.title.set_text('Input Signal')
+ax1.title.set_text('Input Cosinus')
 ax2.set_xlim([0,200*np.pi+1])
 ax2.set_ylim([-10 ,10])
 ax2.title.set_text('Fourier händisch')
@@ -71,7 +80,7 @@ ax3.set_ylim([-10 ,10])
 ax3.title.set_text('Fourier mit np.fft')
 ax4.set_xlim([0,200*np.pi+1])
 ax4.set_ylim([-10 ,10])
-ax3.title.set_text('Differenz Fourier Händisch vs np.fft')
+ax3.title.set_text('Differenz Fourier Händisch - np.fft')
 line1, = ax1.plot([], [], lw=2)
 line2, = ax2.plot([], [], lw=2)
 line3, = ax3.plot([], [], lw=2)
