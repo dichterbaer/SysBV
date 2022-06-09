@@ -1,15 +1,8 @@
-from pickle import FALSE
-from cv2 import repeat
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 from sympy import N
 from matplotlib.animation import FuncAnimation
-
-def X_cos(t): #Cosinuswerte im Intervall
-    Xout = np.cos(t)
-    return  Xout
-
 
 def K_fft(x):
     w = np.arange(0,x,1)
@@ -17,11 +10,6 @@ def K_fft(x):
     k_out = np.exp(-2*np.pi*1j*S*T/x) 
     return  k_out
 
-
-def gen_cosine_signal(cycles, datapoints):
-    x = np.linspace(0, 2, datapoints)
-    sin = np.sin(2*np.pi*cycles*x)
-    return x, sin
 
 def cosine_wave(f,overSampRate,phase,nCyl):
 	"""
@@ -81,24 +69,6 @@ while(1):
     plt.show()
 
 
-
-
-
-cycles = 4
-datapoints = 100
-x, cos = gen_cosine_signal(cycles, datapoints)
-f_h = np.matmul(K_fft(datapoints), cos)
-f_fft = np.fft.fft(cos)
-f_h2 = np.abs(dft(cos))
-
-fig, axs = plt.subplots(3)
-axs[0].plot(cos)
-axs[1].plot(f_h)
-axs[2].plot(f_fft)
-plt.show()
-
-
-
 #
 # Aufgabe 1b)
 k = np.array([1,4,6,4,1])*(1/16)
@@ -150,65 +120,65 @@ cv2.destroyAllWindows()
 
 #Aufgabe 2a) animiert 
 
-interval_end = 2
+# interval_end = 2
 
-fig, (ax1, ax2, ax3, ax4) = plt.subplots(4,1)
-fig.set_size_inches(6, 10)
-ax1.set_xlim([0,interval_end])
-ax1.set_ylim([-1.5 ,1.5])
-ax1.title.set_text('Input Cosinus')
-ax2.set_xlim([0,interval_end])
-ax2.set_ylim([-10 ,10])
-ax2.title.set_text('Fourier händisch')
-ax3.set_xlim([0,interval_end])
-ax3.set_ylim([-10 ,10])
-ax3.title.set_text('Fourier mit np.fft')
-ax4.set_xlim([0,interval_end])
-ax4.set_ylim([-10 ,10])
-ax4.title.set_text('Differenz Fourier Händisch - np.fft')
-ax4.title.set_text('Fourier Händisch 2')
-line1, = ax1.plot([], [], lw=2)
-line2, = ax2.plot([], [], lw=2)
-line3, = ax3.plot([], [], lw=2)
-line4, = ax4.plot([], [], lw=2)
-title = ax1.text(0.5,0.85, "", bbox={'facecolor':'w', 'alpha':0.5, 'pad':5},
-                transform=ax1.transAxes, ha="center")
+# fig, (ax1, ax2, ax3, ax4) = plt.subplots(4,1)
+# fig.set_size_inches(6, 10)
+# ax1.set_xlim([0,interval_end])
+# ax1.set_ylim([-1.5 ,1.5])
+# ax1.title.set_text('Input Cosinus')
+# ax2.set_xlim([0,interval_end])
+# ax2.set_ylim([-10 ,10])
+# ax2.title.set_text('Fourier händisch')
+# ax3.set_xlim([0,interval_end])
+# ax3.set_ylim([-10 ,10])
+# ax3.title.set_text('Fourier mit np.fft')
+# ax4.set_xlim([0,interval_end])
+# ax4.set_ylim([-10 ,10])
+# ax4.title.set_text('Differenz Fourier Händisch - np.fft')
+# ax4.title.set_text('Fourier Händisch 2')
+# line1, = ax1.plot([], [], lw=2)
+# line2, = ax2.plot([], [], lw=2)
+# line3, = ax3.plot([], [], lw=2)
+# line4, = ax4.plot([], [], lw=2)
+# title = ax1.text(0.5,0.85, "", bbox={'facecolor':'w', 'alpha':0.5, 'pad':5},
+#                 transform=ax1.transAxes, ha="center")
 
-def init():
-    line1.set_data([], [])
-    line2.set_data([], [])
-    line3.set_data([], [])
-    line4.set_data([], [])
-    return line1, line2, line3, line4
+# def init():
+#     line1.set_data([], [])
+#     line2.set_data([], [])
+#     line3.set_data([], [])
+#     line4.set_data([], [])
+#     return line1, line2, line3, line4
 
 
-def animate(i):
-    #N = i
-    #n = np.arange(N)
-    #k = 10
-    #x = np.cos(2 * np.pi * (k * n / N) + 2 * (np.random.rand(N) - 0.5)) 
-    #n = i
-    # x = np.linspace(0, interval_end*np.pi, 50)
-    # x = np.linspace(0, interval_end*np.pi, n)
-    #cos = X_cos(x)  
-    #f_h = np.convolve(K_fft(x), X_cos(x))
-    x, cos = gen_cosine_signal(2, i)
-    f_h = np.matmul(K_fft(i), cos)
-    #f_fft = np.fft.fft(cos) 
-    #f_h2 = np.abs(dft(cos))
-    #f_diff = f_h - f_fft
-    line1.set_data(x, cos)
-    line2.set_data(x, f_h)
-    #line3.set_data(x, f_fft)
-    #line4.set_data(x, f_h2)
-    title.set_text("Abtastpunkte: " + str(i))
-    return line1, line2, line3, line4, title,
+# def animate(i):
+#     #N = i
+#     #n = np.arange(N)
+#     #k = 10
+#     #x = np.cos(2 * np.pi * (k * n / N) + 2 * (np.random.rand(N) - 0.5)) 
+#     #n = i
+#     # x = np.linspace(0, interval_end*np.pi, 50)
+#     # x = np.linspace(0, interval_end*np.pi, n)
+#     #cos = X_cos(x)  
+#     #f_h = np.convolve(K_fft(x), X_cos(x))
+#     x, cos = gen_cosine_signal(2, i)
+#     f_h = np.matmul(K_fft(i), cos)
+#     #f_fft = np.fft.fft(cos) 
+#     #f_h2 = np.abs(dft(cos))
+#     #f_diff = f_h - f_fft
+#     line1.set_data(x, cos)
+#     line2.set_data(x, f_h)
+#     #line3.set_data(x, f_fft)
+#     #line4.set_data(x, f_h2)
+#     title.set_text("Abtastpunkte: " + str(i))
+#     return line1, line2, line3, line4, title,
 
-inputs = np.arange(10, 500, 5) #Abtastpunkte (10-500 in 10er Schritten)
-interval = 500 #pause zwischen frames in ms
+# inputs = np.arange(10, 500, 5) #Abtastpunkte (10-500 in 10er Schritten)
+# interval = 500 #pause zwischen frames in ms
 
-anim = FuncAnimation(fig, animate, init_func=init, frames=inputs, interval=interval, blit=True)
-plt.show()
+# anim = FuncAnimation(fig, animate, init_func=init, frames=inputs, interval=interval, blit=True)
+# plt.show()
 #Aufgabe 2a)
 # plt.figure(1)
 # plt.subplot(211)
@@ -218,10 +188,6 @@ plt.show()
 # plt.title('np.fft.ftt(signal)')
 # plt.plot(x,f_fft,'g')
 # plt.show()
-
-
-
-
 print()
 
 
