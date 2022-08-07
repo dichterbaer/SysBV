@@ -1,0 +1,49 @@
+Thorlabs Beam M² Data Export
+
+Date MM-DD-YYYY;06-07-2022
+Time HH:MM:SS;10:42:21
+
+Test Organisaton Adress;																																																			
+Beam Profiler
+Model;BC106-VIS
+Serial Number;M00272611
+Test Method;Full Image
+Wavelength;[nm];632
+Beam Quality Measurement;M2
+Beam Diameter Measure Method;Beam Width Clip (1/e²)
+
+Parameter;Unit;Result;
+M²x'; ;1.09;
+M²y'; ;1.02;
+M² mean; ;1.06;
+
+Beam Waist Position X';mm;64.19;
+Beam Waist Position Y';mm;66.26;
+Beam Waist Diameter X';µm;235.74;
+Beam Waist Diameter Y';µm;240.67;
+
+Rayleigh Length X';mm;63.38;
+Rayleigh Length Y';mm;70.25;
+
+Divergence Angle X';deg;0.213;
+Divergence Angle Y';deg;0.196;
+
+Divergence Asymmetry;%;0.921;
+
+Z;X';Y';
+0.00;327.81;335.06;
+9.67;309.58;310.88;
+19.33;284.23;293.68;
+29.00;276.02;272.12;
+38.67;258.37;253.80;
+48.33;245.13;233.39;
+58.00;238.77;242.63;
+67.67;246.24;243.63;
+77.33;248.47;246.75;
+87.00;250.56;252.78;
+96.67;262.80;272.17;
+106.33;273.35;280.14;
+116.00;278.76;291.16;
+125.67;309.21;316.75;
+135.33;391.20;336.98;
+145.00;395.40;355.70;
